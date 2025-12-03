@@ -1,0 +1,12 @@
+[
+  { "name": "książka", "weight": 4, "value": 4 },
+  { "name": "laptop", "weight": 7, "value": 9 },
+  { "name": "butelka wody", "weight": 4, "value": 2 },
+  { "name": "zeszyt", "weight": 2, "value": 3 },
+  { "name": "telefon", "weight": 1, "value": 8 },
+  { "name": "buty", "weight": 8, "value": 6 },
+  { "name": "kapelusz", "weight": 6, "value": 4 },
+  { "name": "bidon", "weight": 3, "value": 2 },
+  { "name": "piórnik", "weight": 2, "value": 2 },
+  { "name": "ładowarka", "weight": 1, "value": 1 }
+]
