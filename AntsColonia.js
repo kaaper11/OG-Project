@@ -11,7 +11,6 @@ class AntsColonia {
 
     /**
      * Wykonuje pojedynczą iterację algorytmu:
-     * 1. Każda mrówka konstruuje plecak
      * 2. Ocena rozwiązań
      * 3. Parowanie feromonów
      * 4. Aktualizacja feromonów
