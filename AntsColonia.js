@@ -1,16 +1,9 @@
 class AntsColonia {
-    constructor({ items, capacity, antCount, alpha, beta, evaporation, Q }) {
-        this.items = items;
-        this.capacity = capacity;
+    constructor({antCount, evaporation, Q }) {
         this.antCount = antCount;
-
-        this.alpha = alpha;            // waga feromonu
-        this.beta = beta;              // waga oplacalnosci
         this.evaporation = evaporation; // współczynnik parowania
         this.Q = Q;                    // ilość feromonu dodawanego przez mrówki
 
-        //tablicy feromonów
-        this.pheromones = Array(items.length).fill(1);
 
         this.bestSolution = null;
         this.bestValue = 0;
