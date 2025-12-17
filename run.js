@@ -1,81 +1,129 @@
 import fs from 'fs';
 import path from 'path';
-import AntsColonia from './RepresenativeCalsses/AntsColonia.js';
+import KoloniaMrowek from './RepresenativeCalsses/AntsColonia.js';
 
-// Parametry (dostosuj jeśli chcesz)
-const MAX_WIELKOSC = 10;     // pojemność plecaka mrówek
-const EVAPORATION = 0.1;     // współczynnik parowania
-const Q = 2;                 // ilość feromonu (zgodnie z wymaganiem)
-const ANTS_PER_ITER = 10;    // 10 mrówek na iterację
-const P_ELITE = 0.1;         // 10% elita
-const ITERATIONS = 20;       // ile iteracji uruchomić
+const MAKSYMALNA_WIELKOSC = 10;
+const PAROWANIE = 0.1;
+const Q = 2;
+const MROWKI_NA_ITERACJE = 10;
+const PROCENT_ELITY = 0.1;
+const LICZBA_ITERACJI = 20;
 
-async function main() {
-    console.log(`Params: max=${MAX_WIELKOSC}, evap=${EVAPORATION}, Q=${Q}, antsPerIter=${ANTS_PER_ITER}, p=${P_ELITE}, iterations=${ITERATIONS}\n`);
+async function uruchom() {
+    console.log(
+        `Parametry: max=${MAKSYMALNA_WIELKOSC}, ` +
+        `parowanie=${PAROWANIE}, Q=${Q}, ` +
+        `mrówki/iter=${MROWKI_NA_ITERACJE}, ` +
+        `elita=${PROCENT_ELITY}, ` +
+        `iteracje=${LICZBA_ITERACJI}\n`
+    );
 
-    // Upewnij się, że ścieżka do klasy AntsColonia jest poprawna (./RepresenativeCalsses/AntsColonia.js)
-    const colony = new AntsColonia({
-        maxWielkosc: MAX_WIELKOSC,
-        evaporation: EVAPORATION,
+    const kolonia = new KoloniaMrowek({
+        maksymalnaWielkoscPlecaka: MAKSYMALNA_WIELKOSC,
+        parowanie: PAROWANIE,
         Q: Q,
-        antsPerIter: ANTS_PER_ITER,
-        p: P_ELITE
+        liczbaMrowek: MROWKI_NA_ITERACJE,
+        procentElity: PROCENT_ELITY
     });
 
-    // prosty raport początkowy
-    console.log('Initial pheromone sum:', colony.pheromones.reduce((a,b) => a+b, 0).toFixed(6));
+    console.log(
+        'Początkowa suma feromonów:',
+        kolonia.feromony.reduce((a, b) => a + b, 0).toFixed(6)
+    );
     console.log('');
 
-    const history = [];
+    const historia = [];
 
-    for (let it = 1; it <= ITERATIONS; it++) {
-        const summary = colony.iterate();
+    for (let iteracja = 1; iteracja <= LICZBA_ITERACJI; iteracja++) {
+        const podsumowanie = kolonia.wykonajIteracje();
 
-        // policz sumę feromonów i top-3 przedmioty wg feromonu
-        const pherSum = summary.pheromones.reduce((a,b) => a + b, 0);
-        const pherTop = summary.pheromones
-            .map((v, idx) => ({ idx, v }))
-            .sort((a,b) => b.v - a.v)
-            .slice(0, 3);
+        const sumaFeromonow = podsumowanie.feromony
+            .reduce((a, b) => a + b, 0);
 
-        // krótka reprezentacja najlepszego rozwiązania
-        const best = summary.bestSolution;
-        const bestVal = summary.bestValue;
-        const bestItemsStr = best ? best.przedmioty.map(x => x.name).join(', ') : '(none)';
+        const najlepszeRozwiazanie = podsumowanie.najlepszeRozwiazanie;
+        const najlepszaWartosc = podsumowanie.najlepszaWartosc;
 
-        console.log(`Iter ${it.toString().padStart(2,'0')}: bestValue=${bestVal}  pherSum=${pherSum.toFixed(4)}  topPher=${pherTop.map(x => `${x.idx}:${x.v.toFixed(3)}`).join(' | ')}  bestItems=[${bestItemsStr}]`);
+        const najlepszePrzedmioty = najlepszeRozwiazanie
+            ? [...najlepszeRozwiazanie.przedmioty]
+                .sort((a, b) => a.index - b.index)
+            : [];
 
-        history.push({
-            iter: it,
-            bestValue: bestVal,
-            pheromoneSum: pherSum
+        const najlepszePrzedmiotyTekst = najlepszePrzedmioty.length
+            ? najlepszePrzedmioty.map(p => p.name).join(', ')
+            : '(brak)';
+
+        const feromonyNajlepszych = najlepszePrzedmioty.map(p => ({
+            index: p.index,
+            name: p.name,
+            feromon: podsumowanie.feromony[p.index]
+        }));
+
+        console.log(
+            `Iteracja ${iteracja.toString().padStart(2, '0')}: ` +
+            `najlepszaWartosc=${najlepszaWartosc}  ` +
+            `sumaFeromonow=${sumaFeromonow.toFixed(4)}  ` +
+            `feromonyNajlepszych=${feromonyNajlepszych
+                .map(f => `${f.name}[${f.index}]:${f.feromon.toFixed(3)}`)
+                .join(' | ')}  ` +
+            `najlepszePrzedmioty=[${najlepszePrzedmiotyTekst}]`
+        );
+
+        historia.push({
+            iteracja: iteracja,
+            najlepszaWartosc: najlepszaWartosc,
+            sumaFeromonow: sumaFeromonow
         });
     }
 
-    // wyniki końcowe
-    console.log('\n=== FINAL RESULT ===');
-    console.log('Best value found:', colony.bestValue);
-    if (colony.bestSolution) {
-        console.log('Best packing (items):', colony.bestSolution.przedmioty.map(i => `${i.name} (w:${i.weight}, v:${i.value})`).join(' ; '));
-        console.log('Best weight:', colony.bestSolution.waga, 'Best value:', colony.bestSolution.wartosc);
+    console.log('\n=== WYNIK KOŃCOWY ===');
+    console.log('Najlepsza znaleziona wartość:', kolonia.najlepszaWartosc);
+
+    if (kolonia.najlepszeRozwiazanie) {
+        const posortowaneKoncowe = [...kolonia.najlepszeRozwiazanie.przedmioty]
+            .sort((a, b) => a.index - b.index);
+
+        console.log(
+            'Najlepsze upakowanie (przedmioty):',
+            posortowaneKoncowe
+                .map(p => `${p.name} (w:${p.weight}, v:${p.value})`)
+                .join(' ; ')
+        );
+
+        console.log(
+            'Łączna waga:',
+            kolonia.najlepszeRozwiazanie.waga,
+            'Łączna wartość:',
+            kolonia.najlepszeRozwiazanie.wartosc
+        );
     } else {
-        console.log('No best solution recorded.');
+        console.log('Nie znaleziono najlepszego rozwiązania.');
     }
 
-    // zapisz best solution i historię do pliku
-    const out = {
-        bestSolution: colony.bestSolution,
-        bestValue: colony.bestValue,
-        pheromones: colony.pheromones,
-        history
-    };
-    fs.writeFileSync(path.resolve('./best_solution.json'), JSON.stringify(out, null, 2));
-    console.log('\nSaved final results to best_solution.json');
+    const posortowaneRozwiazanie = kolonia.najlepszeRozwiazanie
+        ? {
+            ...kolonia.najlepszeRozwiazanie,
+            przedmioty: [...kolonia.najlepszeRozwiazanie.przedmioty]
+                .sort((a, b) => a.index - b.index)
+        }
+        : null;
 
+    const wynik = {
+        najlepszeRozwiazanie: posortowaneRozwiazanie,
+        najlepszaWartosc: kolonia.najlepszaWartosc,
+        feromony: kolonia.feromony,
+        historia
+    };
+
+    fs.writeFileSync(
+        path.resolve('./best_solution.json'),
+        JSON.stringify(wynik, null, 2)
+    );
+
+    console.log('\nZapisano wyniki końcowe do pliku best_solution.json');
     process.exit(0);
 }
 
-main().catch(err => {
-    console.error('ERROR running ACO:', err);
+uruchom().catch(err => {
+    console.error('BŁĄD PODCZAS URUCHAMIANIA ACO:', err);
     process.exit(1);
 });

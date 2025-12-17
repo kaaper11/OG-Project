@@ -1,0 +1,165 @@
+{
+  "najlepszeRozwiazanie": {
+    "przedmioty": [
+      {
+        "index": 0,
+        "name": "książka",
+        "weight": 4,
+        "value": 4
+      },
+      {
+        "index": 1,
+        "name": "laptop",
+        "weight": 7,
+        "value": 9
+      },
+      {
+        "index": 3,
+        "name": "zeszyt",
+        "weight": 2,
+        "value": 3
+      },
+      {
+        "index": 4,
+        "name": "telefon",
+        "weight": 1,
+        "value": 8
+      },
+      {
+        "index": 7,
+        "name": "bidon",
+        "weight": 3,
+        "value": 2
+      },
+      {
+        "index": 8,
+        "name": "piórnik",
+        "weight": 2,
+        "value": 2
+      },
+      {
+        "index": 9,
+        "name": "ładowarka",
+        "weight": 1,
+        "value": 1
+      }
+    ],
+    "waga": 20,
+    "wartosc": 29
+  },
+  "najlepszaWartosc": 29,
+  "feromony": [
+    5493.992300528108,
+    5470.644332225459,
+    0.12157665459056936,
+    5578.318968354401,
+    5578.318968354401,
+    167.82867412186366,
+    24.41578314255153,
+    5438.695462388277,
+    5522.563241009071,
+    5521.664436372288
+  ],
+  "historia": [
+    {
+      "iteracja": 1,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 3907.0000000000005
+    },
+    {
+      "iteracja": 2,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 7546.3
+    },
+    {
+      "iteracja": 3,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 10985.67
+    },
+    {
+      "iteracja": 4,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 14165.103000000003
+    },
+    {
+      "iteracja": 5,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 17214.5927
+    },
+    {
+      "iteracja": 6,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 19833.13343
+    },
+    {
+      "iteracja": 7,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 22315.820087000004
+    },
+    {
+      "iteracja": 8,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 24550.2380783
+    },
+    {
+      "iteracja": 9,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 26561.21427047
+    },
+    {
+      "iteracja": 10,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 28371.092843423
+    },
+    {
+      "iteracja": 11,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 29999.9835590807
+    },
+    {
+      "iteracja": 12,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 31329.98520317263
+    },
+    {
+      "iteracja": 13,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 32662.98668285537
+    },
+    {
+      "iteracja": 14,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 33744.68801456984
+    },
+    {
+      "iteracja": 15,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 34730.219213112854
+    },
+    {
+      "iteracja": 16,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 35723.19729180157
+    },
+    {
+      "iteracja": 17,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 36616.87756262141
+    },
+    {
+      "iteracja": 18,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 37421.189806359274
+    },
+    {
+      "iteracja": 19,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 38145.07082572334
+    },
+    {
+      "iteracja": 20,
+      "najlepszaWartosc": 29,
+      "sumaFeromonow": 38796.56374315101
+    }
+  ]
+}

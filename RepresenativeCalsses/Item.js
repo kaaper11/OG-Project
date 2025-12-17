@@ -1,23 +1,20 @@
 export class Item {
-    constructor(name, weight, value) {
+    constructor(name, weight, value, index) {
         this.name = name;
-        this.weight = weight;
-        this.value = value;
+        this.weight = Number(weight);
+        this.value = Number(value);
+        this.index = index; // 🔥 KLUCZ
     }
 
     wyswietlPrzedmiot() {
         console.log(`${this.name} ( waga: ${this.weight}, wartość: ${this.value} )`);
     }
 
-    oplacalnoscPrzedmiotu(){
-        return this.value/this.weight;
+    oplacalnoscPrzedmiotu() {
+        return this.value / this.weight;
     }
 
-    czySieMiesci(max, ileJest){
-        if (ileJest + this.weight <= max) {
-            return true;
-        }
-        return false;
+    czySieMiesci(max, ileJest) {
+        return ileJest + this.weight <= max;
     }
-
 }
